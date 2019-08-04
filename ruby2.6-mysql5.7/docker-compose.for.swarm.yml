@@ -1,0 +1,32 @@
+---
+version: '3'
+services:
+  cloud9:
+    volumes:
+    - workspace-data:/usr/src/app
+    ports:
+    - 8888
+    environment:
+      MYSQL_HOST: mysql
+      MYSQL_PASSWORD: Passw0rd
+    depends_on:
+    - mysql
+    image: yusukeiwaki/cloud-pine-workspace-ruby2.6-mysql5.7
+    networks:
+    - default
+    - master
+  mysql:
+    image: mysql:5.7
+    volumes:
+    - mysql-data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: Passw0rd
+volumes:
+  mysql-data:
+    driver: local
+  workspace-data:
+    driver: local
+networks:
+  master:
+    external:
+      name: cloud-pine-master
